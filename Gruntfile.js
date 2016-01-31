@@ -1,8 +1,13 @@
-module.exports = function(grunt) {
 
+
+module.exports = function(grunt) {
+	"use strict";
+
+	var path = require('path');
 	grunt.loadNpmTasks('grunt-express-server');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-exec');
+	grunt.loadNpmTasks('grunt-webpack');
 
 	grunt.initConfig({
 		express: {
@@ -42,14 +47,34 @@ module.exports = function(grunt) {
 					"Gruntfile.js",
 					"app.js"
 				],
-				tasks:  [ 'express:www' ],
+				tasks:  ['express:www' ],
 				options: {
 					spawn: false
+				}
+			}
+		},
+
+		webpack: {
+			static: {
+				entry: './static/js/app.js',
+				output: { path: path.join(__dirname, "/public"), filename: 'bundle.js' },
+				watch: true,
+				module: {
+					loaders: [
+						{
+							test: /.js?$/,
+							loader: 'babel-loader',
+							exclude: /node_modules/,
+							query: {
+								presets: ['es2015', 'react']
+							}
+						}
+					]
 				}
 			}
 		}
 	});
 
-	grunt.registerTask("start", ["express", "watch"]);
-	grunt.registerTask("initdb", ["exec:initDB"]);
+	grunt.registerTask("build", ["webpack"]);
+	grunt.registerTask("start", ["build", "express", "watch"]);
 };
