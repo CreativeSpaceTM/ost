@@ -59,6 +59,7 @@ module.exports = function(grunt) {
 				entry: './static/js/app.js',
 				output: { path: path.join(__dirname, "/public"), filename: 'bundle.js' },
 				watch: true,
+				devtool: "eval-cheap-module-source-map",
 				module: {
 					loaders: [
 						{

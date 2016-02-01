@@ -12,7 +12,7 @@ class Keypad extends React.Component {
 
 	keyPressed(key) {
 		var newValue;
-		if (key > 0) {
+		if (key >= 0) {
 			newValue = this.state.value + key;
 		}
 		else {
@@ -26,25 +26,26 @@ class Keypad extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="keypad">
 				<div>
-					<button onClick={this.keyPressed.bind(this, 1)}>1</button>
-					<button onClick={this.keyPressed.bind(this, 2)}>2</button>
-					<button onClick={this.keyPressed.bind(this, 3)}>3</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 1)}>1</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 2)}>2</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 3)}>3</button>
 				</div>
 				<div>
-					<button onClick={this.keyPressed.bind(this, 4)}>4</button>
-					<button onClick={this.keyPressed.bind(this, 5)}>5</button>
-					<button onClick={this.keyPressed.bind(this, 6)}>6</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 4)}>4</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 5)}>5</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 6)}>6</button>
 				</div>
 				<div>
-					<button onClick={this.keyPressed.bind(this, 7)}>7</button>
-					<button onClick={this.keyPressed.bind(this, 8)}>8</button>
-					<button onClick={this.keyPressed.bind(this, 9)}>9</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 7)}>7</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 8)}>8</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 9)}>9</button>
 				</div>
 				<div>
-					<button onClick={this.keyPressed.bind(this, 0)}>0</button>
-					<button onClick={this.keyPressed.bind(this, -1)}>&lt;</button>
+					<button className="ui button">*</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, 0)}>0</button>
+					<button className="ui button" onClick={this.keyPressed.bind(this, -1)}>&lt;</button>
 				</div>
 			</div>
 		);
