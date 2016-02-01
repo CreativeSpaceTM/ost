@@ -10,6 +10,10 @@ class Keypad extends React.Component {
 		};
 	}
 
+	clearValue() {
+		this.setState({value: ""});
+	}
+
 	keyPressed(key) {
 		var newValue;
 		if (key >= 0) {

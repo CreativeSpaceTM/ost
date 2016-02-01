@@ -19,23 +19,46 @@ class Login extends React.Component {
 	}
 
 	userClicked(user) {
-		this.setState({currentUser: user}, function () {
-			$('.ui.basic.modal')
-			.modal({
-				detachable: false
-			})
-			.modal('show');
+		this.refs.keypad.clearValue();
+		this.setState({currentUser: user, password: ""}, function () {
+			this.refs.modal.show();
 		});
 	}
 
 	componentDidMount() {
-		this.setState({
-			users: [
-				{id: 1, name: "Surdu Nicolae"},
-				{id: 2, name: "Cristi Lupu"},
-				{id: 3, name: "Mihai Dragoi"}
-			]
+		$.ajax({
+			url: "/api/v1.0/user/all",
+
+			success: $.proxy(function (users) {
+				this.setState({
+					users: users
+				});
+			}, this)
 		});
+	}
+
+	handlePassChange(e) {
+		this.setState({password: e.target.value});
+	}
+
+	login() {
+		$.ajax({
+			url: "/api/v1.0/user/login",
+			method: "POST",
+			dataType: "json",
+			data: {
+				username: this.state.currentUser.username,
+				password: this.state.password
+			},
+			success: $.proxy(function (response) {
+				console.log(response);
+			}, this),
+			error: $.proxy(function () {
+				console.error("Invalid user / password");
+			}, this)
+		});
+
+		console.log("Login:", this.state.currentUser, this.state.password);
 	}
 
 	render() {
@@ -63,7 +86,7 @@ class Login extends React.Component {
 					{usersList}
 				</div>
 
-				<Modal>
+				<Modal ref="modal" onOk={this.login.bind(this)}>
 					<div id="loginModalPicture">
 						<img src="/static/img/defaultAvatar.png" className="avatar"/>
 						<div>
@@ -73,11 +96,11 @@ class Login extends React.Component {
 
 					<div id="loginModalKeypad">
 						<div className="ui left icon input large">
-							<input type="password" value={this.state.password}/>
+							<input type="password" value={this.state.password} onChange={this.handlePassChange}/>
 							<i className="lock icon" />
 						</div>
 
-						<Keypad onChange={this.updatePassword.bind(this)} />
+						<Keypad ref="keypad" onChange={this.updatePassword.bind(this)} />
 					</div>
 				</Modal>
 			</div>

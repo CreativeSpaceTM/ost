@@ -1,3 +1,5 @@
+"use strict";
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt');
@@ -5,17 +7,17 @@ var bcrypt = require('bcrypt');
 var User = require("../models/user");
 
 passport.use(new LocalStrategy({
-		usernameField: 'email',
+		usernameField: 'username',
 		passwordField: 'password'
 	},
-	function(email, password, done) {
+	function(username, password, done) {
 		User.findOne({
-			where: {"email": email}
+			where: {"username": username}
 		}).then(function (user) {
 			if (!user) {
 				return done(null, false, { message: 'Incorrect username or password.' });
 			}
-			
+
 			if (!bcrypt.compareSync(password, user.password)) {
 				return done(null, false, { message: 'Incorrect username or password.' });
 			}
@@ -24,7 +26,7 @@ passport.use(new LocalStrategy({
 		})
 		.catch(function (err) {
 			throw err;
-		})
+		});
 	}
 ));
 
@@ -42,4 +44,4 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-module.exports = passport
+module.exports = passport;

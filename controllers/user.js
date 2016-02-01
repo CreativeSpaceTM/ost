@@ -1,7 +1,9 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
-var passport = require('./passport')
+var passport = require('./passport');
 
 var User = require("../models/user");
 
@@ -14,19 +16,18 @@ router.post('/register', function(req, res) {
 				throw err;
 			}
 
-			console.log("salt:", salt, "hash:", hash);
 			User.create({
-				email: req.body.email,
+				username: req.body.username,
+				name: req.body.name,
 				password: hash
 			}).then(function () {
 				res.json({ status: 'ok' });
+			}).catch(function (err) {
+				res.status(400).json({ error: err });
 			});
 		});
 	});
 });
-
-
-
 
 router.post('/login', function (req, res, next) {
 
@@ -36,7 +37,7 @@ router.post('/login', function (req, res, next) {
 		}
 
 		if (!user) {
-			return res.status(403).json({error: info.message});
+			return res.status(400).json({error: info.message});
 		}
 
 		req.logIn(user, function(err) {
@@ -51,10 +52,16 @@ router.post('/login', function (req, res, next) {
 
 });
 
-
 router.get('/logout', function(req, res){
 	req.logout();
 	res.json({status: "ok"});
 });
+
+router.get('/all', function(req, res){
+	User.findAll().then(function (users) {
+		res.json(users);
+	});
+});
+
 
 module.exports = router;
