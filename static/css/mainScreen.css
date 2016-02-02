@@ -1,0 +1,20 @@
+#mainView {
+	padding: 15px;
+}
+
+	#mainView label {
+		font-weight: 700;
+		font-size: 18px;
+	}
+
+	#mainView #logoutWrap {
+		text-align: right;
+	}
+
+		#logoutWrap button {
+			margin: 0;
+		}
+
+	#mainView #typeSelectionWrap {
+		text-align: center;
+	}

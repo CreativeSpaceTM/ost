@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 		webpack: {
 			static: {
 				entry: './static/js/app.js',
-				output: { path: path.join(__dirname, "/public"), filename: 'bundle.js' },
+				output: { path: path.join(__dirname, "/dist"), filename: 'bundle.js' },
 				watch: true,
 				devtool: "eval-cheap-module-source-map",
 				module: {
