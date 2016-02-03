@@ -19,6 +19,7 @@ router.post('/register', function(req, res) {
 			User.create({
 				username: req.body.username,
 				name: req.body.name,
+				type: req.body.type,
 				password: hash
 			}).then(function () {
 				res.json({ status: 'ok' });

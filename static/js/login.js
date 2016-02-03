@@ -1,7 +1,7 @@
 import React from 'react';
 import Keypad from "./keypad";
 import Modal from "./modal";
-import { hashHistory } from 'react-router';
+import utils from "./utils";
 
 class Login extends React.Component {
 
@@ -53,14 +53,12 @@ class Login extends React.Component {
 			},
 			success: $.proxy(function () {
 				localStorage.setItem("user", JSON.stringify(this.state.currentUser));
-				hashHistory.push("/");
+				utils.redirectToUserView();
 			}, this),
 			error: $.proxy(function () {
 				console.error("Invalid user / password");
 			}, this)
 		});
-
-		console.log("Login:", this.state.currentUser, this.state.password);
 	}
 
 	render() {

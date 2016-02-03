@@ -2,6 +2,15 @@
 	padding: 15px;
 }
 
+	#mainView .padded {
+		padding-top: 34px;
+	}
+
+		#mainView .padded button {
+			display: block;
+			width: 100%;
+		}
+
 	#mainView label {
 		font-weight: 700;
 		font-size: 18px;
@@ -14,7 +23,3 @@
 		#logoutWrap button {
 			margin: 0;
 		}
-
-	#mainView #typeSelectionWrap {
-		text-align: center;
-	}

@@ -1,27 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Login from './login';
-import MainScreen from './main';
+import SuperScreen from './superScreen';
 import { Router, hashHistory } from 'react-router';
+import utils from "./utils";
 
 class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			user: "ceva"
-		};
 	}
 
 	componentDidMount() {
-		var user = localStorage.getItem("user");
-		if (user) {
-			hashHistory.push("/main");
-		}
-		else {
-			hashHistory.push("/login");
-		}
+		utils.redirectToUserView();
 	}
 
 	render() {
@@ -38,7 +29,7 @@ const routes = {
 	component: App,
 	childRoutes: [
 		{path: "login", component: Login},
-		{path: "main", component: MainScreen},
+		{path: "superScreen", component: SuperScreen},
 	]
 };
 
