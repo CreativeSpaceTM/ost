@@ -1,3 +1,7 @@
+.minCell {
+	width: 1px;
+}
+
 .clearFix:after {
 	content: " ";
 	clear: both;
