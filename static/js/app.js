@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Login from './login';
 import SuperScreen from './superScreen';
+import OpScreen from './opScreen';
 import { Router, hashHistory } from 'react-router';
 import utils from "./utils";
 
@@ -17,7 +18,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div id="appWrap">
 				{this.props.children}
 			</div>
 		);
@@ -30,6 +31,7 @@ const routes = {
 	childRoutes: [
 		{path: "login", component: Login},
 		{path: "superScreen", component: SuperScreen},
+		{path: "opScreen", component: OpScreen},
 	]
 };
 

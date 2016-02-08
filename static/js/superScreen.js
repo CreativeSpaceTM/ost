@@ -101,7 +101,7 @@ class SuperScreen extends React.Component {
 		});
 
 		return (
-			<div id="mainView">
+			<div id="superView">
 				<div className="ui grid">
 					<div className="sixteen wide column" id="logoutWrap">
 						<button className="ui primary button"
