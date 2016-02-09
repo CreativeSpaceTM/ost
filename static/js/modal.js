@@ -3,7 +3,7 @@ import React from 'react';
 class Modal extends React.Component {
 
 	show() {
-		$('.ui.basic.modal').modal({
+		$(this.refs.modalDOM).modal({
 			detachable: false,
 			onApprove: this.props.onOk
 		})
@@ -12,7 +12,7 @@ class Modal extends React.Component {
 
 	render() {
 		return (
-			<div className="ui basic modal">
+			<div className="ui basic modal" ref="modalDOM">
 				<div className="content">
 					{this.props.children}
 				</div>

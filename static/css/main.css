@@ -1,3 +1,18 @@
+#userHeader {
+	background-color: #e8e8e8;
+	border-bottom: 1px solid silver;
+}
+
+	#userHeader h3 {
+		font-weight: 400;
+		margin: 10px;
+	}
+
+	#userHeader button {
+		float: right;
+		margin: 3px;
+	}
+
 .minCell {
 	width: 1px;
 }

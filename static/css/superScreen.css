@@ -1,22 +1,28 @@
-#mainView {
+#superView {
 	padding: 15px;
 }
 
-	#mainView .padded {
+	#superView #userHeader {
+		margin: -15px;
+		margin-bottom: 30px;
+		padding: 0.1px;
+	}
+
+	#superView .padded {
 		padding-top: 34px;
 	}
 
-		#mainView .padded button {
+		#superView .padded button {
 			display: block;
 			width: 100%;
 		}
 
-	#mainView label {
+	#superView label {
 		font-weight: 700;
 		font-size: 18px;
 	}
 
-	#mainView #logoutWrap {
+	#superView #logoutWrap {
 		text-align: right;
 	}
 

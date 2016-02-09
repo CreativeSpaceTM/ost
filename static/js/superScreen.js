@@ -1,8 +1,6 @@
 import React from 'react';
-import lodash from 'lodash';
+import _ from 'lodash';
 import { hashHistory } from 'react-router';
-
-var _ = lodash;
 
 class SuperScreen extends React.Component {
 
@@ -13,7 +11,8 @@ class SuperScreen extends React.Component {
 			products: [],
 			selectedProducts: [],
 			product: "",
-			maxProducts: 4
+			maxProducts: 6,
+			user: {}
 		};
 	}
 
@@ -26,6 +25,10 @@ class SuperScreen extends React.Component {
 				});
 			}, this)
 		});
+	}
+
+	componentWillReceiveProps() {
+		this.state.user = JSON.parse(localStorage.getItem("user"));
 
 		var storedProducts = localStorage.getItem("products");
 
@@ -102,14 +105,13 @@ class SuperScreen extends React.Component {
 
 		return (
 			<div id="superView">
-				<div className="ui grid">
-					<div className="sixteen wide column" id="logoutWrap">
-						<button className="ui primary button"
-						        onClick={this.gotoLogin.bind(this)}>
-							<i className="user icon"></i>
-							Change user
-						</button>
-					</div>
+				<div id="userHeader">
+					<button className="ui primary button"
+									onClick={this.gotoLogin.bind(this)}>
+						<i className="user icon"></i>
+						Change user
+					</button>
+					<h3>Supervisor: <b>{this.state.user.name}</b></h3>
 				</div>
 
 				<div className="ui grid">

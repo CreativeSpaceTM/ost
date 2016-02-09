@@ -17,4 +17,10 @@ html,
 		flex: 1 1 auto;
 		display: flex;
 		align-items: center;
+		border-bottom: 1px solid silver;
 	}
+
+		#opView .productItem .section {
+			width: 33.33%;
+			text-align: center;
+		}
