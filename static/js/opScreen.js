@@ -6,8 +6,13 @@ import utils from "./utils";
 import Modal from "./modal";
 
 const SIDE = {
-	LEFT: "left",
-	RIGHT: "right"
+	LEFT: 0,
+	RIGHT: 1
+};
+
+const STATUS = {
+	NOTOK: 0,
+	OK: 1
 };
 
 class ProductItem extends React.Component {
@@ -15,63 +20,65 @@ class ProductItem extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.product = props.info;
+
 		this.state = {
-			side: null
 		};
 
-		this.state = _.extend(this.state, props.info);
+		this.state = _.extend(this.state, this.product);
 	}
 
-	setSide(side) {
-		this.setState({
-			side: side
-		});
+	setOk(side) {
+		var status = {
+			side: side,
+			status: STATUS.OK
+		};
+
+		this.props.onStatusChange(this.product.id, status);
 	}
 
-	setOk() {
-		this.setState({
-			side: null
-		});
-	}
-
-	setNotOk() {
+	setNotOk(side) {
+		this.notOkSide = side;
 		this.refs.modal.show();
 	}
 
 	setDefect() {
-		this.setState({
-			side: null
-		});
-		console.log("Defectomundo");
+		var status = {
+			side: this.notOkSide,
+			status: STATUS.NOTOK,
+			defect: 1
+		};
+
+		this.props.onStatusChange(this.product.id, status);
 	}
 
 	render() {
 		return (
 			<div className="productItem">
 				<div className="section">
-					<h2>{this.state.name}</h2>
+					<h2>{_.capitalize(this.state.name)}</h2>
 				</div>
 
 				<div className="section">
-					<div className="ui buttons">
-						<button className={"ui button huge" + (this.state.side === SIDE.LEFT ? " active" : "")}
-						        onClick={this.setSide.bind(this, SIDE.LEFT)}>
-							Left
-						</button>
-						<button className={"ui button huge" + (this.state.side === SIDE.RIGHT ? " active" : "")}
-						        onClick={this.setSide.bind(this, SIDE.RIGHT)}>
-							Right
-						</button>
-					</div>
-				</div>
-
-				<div className="section" hidden={!this.state.side}>
+						<label>Stanga</label>
 						<button className="ui button green huge"
-						        onClick={this.setOk.bind(this)}>
+						        onClick={this.setOk.bind(this, SIDE.LEFT)}>
 							Ok
 						</button>
 						<button className="ui button red huge"
-						        onClick={this.setNotOk.bind(this)}>
+						        onClick={this.setNotOk.bind(this, SIDE.LEFT)}>
+							Not Ok
+						</button>
+				</div>
+
+				<div className="section">
+						<label>Dreapta</label>
+						<button className="ui button green huge"
+						        onClick={this.setOk.bind(this, SIDE.RIGHT)}>
+							Ok
+						</button>
+						<button className="ui button red huge"
+						        onClick={this.setNotOk.bind(this, SIDE.RIGHT)}>
 							Not Ok
 						</button>
 				</div>
@@ -93,35 +100,50 @@ class OpScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.stats = JSON.parse(localStorage.getItem("stats") || "[]");
 		this.state = {
-			products: [],
-			user: {}
+			user: {},
+			products: []
 		};
 	}
 
-	componentWillReceiveProps() {
-		this.state.user = JSON.parse(localStorage.getItem("user"));
-
-		var storedProducts = localStorage.getItem("products");
-
-		if (storedProducts) {
-			this.state.products = JSON.parse(storedProducts);
-		}
-	}
-
 	componentDidMount() {
-		utils.redirectToUserView();
+		var user = JSON.parse(localStorage.getItem("user"));
+		var storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
+
+		this.setState({
+			user: user,
+			products: storedProducts
+		});
 	}
 
 	gotoLogin() {
 		hashHistory.push("/login");
 	}
 
+	setStatus(prodId, status) {
+		var statEntry = {
+			prodId: prodId,
+			timestamp: Date.now()
+		};
+
+		statEntry = _.extend(statEntry, status);
+
+		this.stats.push(statEntry);
+		localStorage.setItem("stats", JSON.stringify(this.stats));
+
+		console.log(this.stats);
+	}
+
 	render() {
+		var self = this;
 
 		var productItems = this.state.products.map(function (product) {
 			return (
-				<ProductItem info={product} key={product.id}></ProductItem>
+				<ProductItem info={product}
+				             key={product.id}
+				             onStatusChange={self.setStatus.bind(self)}>
+				</ProductItem>
 			);
 		});
 

@@ -25,9 +25,7 @@ class SuperScreen extends React.Component {
 				});
 			}, this)
 		});
-	}
 
-	componentWillReceiveProps() {
 		this.state.user = JSON.parse(localStorage.getItem("user"));
 
 		var storedProducts = localStorage.getItem("products");

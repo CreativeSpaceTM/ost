@@ -13,6 +13,7 @@
 
 		#usersList .userItem {
 			cursor: pointer;
+			width: 20%;
 		}
 
 .modal .avatar {
