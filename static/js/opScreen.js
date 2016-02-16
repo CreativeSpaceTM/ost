@@ -115,8 +115,8 @@ class OpScreen extends React.Component {
 
 	setStatus(prodId, status) {
 		var statEntry = {
-			prodId: prodId,
-			timestamp: Date.now()
+			product: prodId,
+			timestamp: String(Date.now())
 		};
 
 		statEntry = _.extend(statEntry, status);
@@ -124,7 +124,16 @@ class OpScreen extends React.Component {
 		this.stats.push(statEntry);
 		localStorage.setItem("stats", JSON.stringify(this.stats));
 
-		console.log(this.stats);
+		$.ajax({
+			url: "/api/v1.0/stat/add",
+			method: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({stats: this.stats}),
+			success: $.proxy(function () {
+				this.stats = [];
+				localStorage.setItem("stats", JSON.stringify(this.stats));
+			}, this)
+		});
 	}
 
 	render() {

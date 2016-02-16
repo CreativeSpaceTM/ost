@@ -32,6 +32,10 @@ module.exports = db.define('stat', {
 			model: Defect,
 			key: "id"
 		}
+	},
+	timestamp: {
+		type: Sequelize.STRING,
+		allowNull: false,
 	}
 }, {
 	updatedAt: false,

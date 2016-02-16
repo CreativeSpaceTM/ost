@@ -6,11 +6,11 @@ var router = express.Router();
 var Stat = require("../models/stat");
 
 router.post('/add', function(req, res){
-		Stat.create(req.body).then(function () {
-			res.json({status: "ok"});
+		Stat.bulkCreate(req.body.stats).then(function (stats) {
+			res.json({status: "ok", added:stats});
 		})
 		.catch(function (err) {
-			res.status(400).json({errors: err.errors});
+			res.status(400).json({error: err});
 		});
 });
 
