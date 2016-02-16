@@ -5,10 +5,13 @@ var router = express.Router();
 
 var Stat = require("../models/stat");
 
-router.get('/all', function(req, res){
-	Stat.findAll().then(function (products) {
-		res.json(products);
-	});
+router.post('/add', function(req, res){
+		Stat.create(req.body).then(function () {
+			res.json({status: "ok"});
+		})
+		.catch(function (err) {
+			res.status(400).json({errors: err.errors});
+		});
 });
 
 

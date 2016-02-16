@@ -5,15 +5,7 @@ import { hashHistory } from 'react-router';
 import utils from "./utils";
 import Modal from "./modal";
 
-const SIDE = {
-	LEFT: 0,
-	RIGHT: 1
-};
-
-const STATUS = {
-	NOTOK: 0,
-	OK: 1
-};
+import {STATUS, SIDE} from "./const";
 
 class ProductItem extends React.Component {
 
