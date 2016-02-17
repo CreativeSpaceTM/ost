@@ -129,9 +129,22 @@ class OpScreen extends React.Component {
 			method: "POST",
 			contentType: "application/json",
 			data: JSON.stringify({stats: this.stats}),
-			success: $.proxy(function () {
-				this.stats = [];
-				localStorage.setItem("stats", JSON.stringify(this.stats));
+			success: $.proxy(function (response) {
+				console.log("Before:", this.stats);
+				if (response.added) {
+					for (var f = 0; f < response.added.length; f++) {
+						var added = response.added[f];
+						for (var g = 0; g < this.stats.length; g++) {
+							var stat = this.stats[g];
+							if (stat.timestamp === added.timestamp) {
+								this.stats.splice(g, 1);
+								break;
+							}
+						}
+					}
+					console.log("After:", this.stats);
+					localStorage.setItem("stats", JSON.stringify(this.stats));
+				}
 			}, this)
 		});
 	}
