@@ -74,17 +74,18 @@ class SuperScreen extends React.Component {
 	}
 
 	render() {
-		var self = this;
+		var productOptions = [];
 
-		var productOptions = this.state.products.map(function (product, index) {
-			return (
-				<option value={index}
+		for (var f = 0; f < this.state.products.length; f++) {
+			var product = this.state.products[f];
+			productOptions.push((
+				<option value={f}
 				        key={product.id}
-				        hidden={self.isProductSelected(product)}>
+				        hidden={this.isProductSelected(product)}>
 					{_.capitalize(product.name)}
 				</option>
-			);
-		});
+			));
+		}
 
 		var selectedProducts = this.state.selectedProducts.map(function (product, index) {
 			return (

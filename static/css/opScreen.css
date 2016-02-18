@@ -7,6 +7,12 @@ html,
 	padding: 0;
 }
 
+.defects button {
+	margin: 10px !important;
+	display: inline-block;
+	width: 20%;
+}
+
 #opView {
 	height: 100%;
 	display: flex;

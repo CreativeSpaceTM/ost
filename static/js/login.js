@@ -62,11 +62,12 @@ class Login extends React.Component {
 	}
 
 	render() {
-		var self = this;
+		var usersList = [];
 
-		var usersList = this.state.users.map(function (user) {
-			return (
-				<div className="column userItem" key={user.id} onClick={self.userClicked.bind(self, user)}>
+		for (var f = 0; f < this.state.users.length; f++) {
+			var user = this.state.users[f];
+			usersList.push((
+				<div className="column userItem" key={user.id} onClick={this.userClicked.bind(this, user)}>
 					<div className="ui fluid card">
 						<div className="image">
 							<img src="/static/img/defaultAvatar.png" />
@@ -76,8 +77,8 @@ class Login extends React.Component {
 						</div>
 					</div>
 				</div>
-			);
-		});
+			));
+		}
 
 		return (
 			<div id="loginView">

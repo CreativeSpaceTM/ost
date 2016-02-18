@@ -2,7 +2,6 @@ import React from 'react';
 import _ from "lodash";
 import { hashHistory } from 'react-router';
 
-import utils from "./utils";
 import Modal from "./modal";
 
 import {STATUS, SIDE} from "./const";
@@ -15,6 +14,7 @@ class ProductItem extends React.Component {
 		this.product = props.info;
 
 		this.state = {
+			defect: -1
 		};
 
 		this.state = _.extend(this.state, this.product);
@@ -31,20 +31,39 @@ class ProductItem extends React.Component {
 
 	setNotOk(side) {
 		this.notOkSide = side;
+		this.setState({defect: -1});
 		this.refs.modal.show();
 	}
 
 	setDefect() {
+		console.log(this.defect);
 		var status = {
 			side: this.notOkSide,
 			status: STATUS.NOTOK,
-			defect: 1
+			defect: this.state.defect
 		};
 
 		this.props.onStatusChange(this.product.id, status);
 	}
 
+	changeDefect(defect) {
+		this.setState({defect: defect});
+	}
+
 	render() {
+		var defectBtns = [];
+
+		for (var f = 0; f < this.props.defects.length; f++) {
+			var defect = this.props.defects[f];
+			defectBtns.push((
+				<button className={"ui button" + (this.state.defect === defect.id ? " green" : "")}
+				        key={f}
+				        onClick={this.changeDefect.bind(this, defect.id)}>
+					{defect.name}
+				</button>
+			));
+		}
+
 		return (
 			<div className="productItem">
 				<div className="section">
@@ -59,7 +78,7 @@ class ProductItem extends React.Component {
 						</button>
 						<button className="ui button red huge"
 						        onClick={this.setNotOk.bind(this, SIDE.LEFT)}>
-							Not Ok
+							Defect
 						</button>
 				</div>
 
@@ -71,16 +90,14 @@ class ProductItem extends React.Component {
 						</button>
 						<button className="ui button red huge"
 						        onClick={this.setNotOk.bind(this, SIDE.RIGHT)}>
-							Not Ok
+							Defect
 						</button>
 				</div>
 
 				<Modal ref="modal" onOk={this.setDefect.bind(this)}>
-					<select>
-						<option>One</option>
-						<option>Two</option>
-						<option>Three</option>
-					</select>
+					<div className="defects">
+						{defectBtns}
+					</div>
 				</Modal>
 			</div>
 		);
@@ -91,11 +108,11 @@ class OpScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.stats = JSON.parse(localStorage.getItem("stats") || "[]");
 		this.state = {
 			user: {},
-			products: []
+			products: [],
+			defects: []
 		};
 	}
 
@@ -106,6 +123,15 @@ class OpScreen extends React.Component {
 		this.setState({
 			user: user,
 			products: storedProducts
+		});
+
+		$.ajax({
+			url: "/api/v1.0/defect/all",
+			success: $.proxy(function (defects) {
+				this.setState({
+					defects: defects
+				});
+			}, this)
 		});
 	}
 
@@ -150,16 +176,18 @@ class OpScreen extends React.Component {
 	}
 
 	render() {
-		var self = this;
+		var productItems = [];
 
-		var productItems = this.state.products.map(function (product) {
-			return (
+		for (var f = 0; f < this.state.products.length; f++) {
+			var product = this.state.products[f];
+			productItems.push((
 				<ProductItem info={product}
 				             key={product.id}
-				             onStatusChange={self.setStatus.bind(self)}>
+				             defects={this.state.defects}
+				             onStatusChange={this.setStatus.bind(this)}>
 				</ProductItem>
-			);
-		});
+			));
+		}
 
 		return (
 			<div id="opView">
