@@ -5,6 +5,7 @@ class Modal extends React.Component {
 	show() {
 		$(this.refs.modalDOM).modal({
 			detachable: false,
+			closable: false,
 			onApprove: this.props.onOk
 		})
 		.modal('show');

@@ -28,6 +28,16 @@
 	text-align: center;
 }
 
+.modal #loginModalKeypad .pointing {
+	display: block;
+	width: 70%;
+	margin: 10px auto;
+}
+
+.modal #loginModalKeypad .pointing[hidden] {
+	display: none;
+}
+
 .modal #loginModalKeypad .input {
 	margin-bottom: 15px;
 }

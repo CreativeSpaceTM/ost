@@ -10,13 +10,17 @@ class Login extends React.Component {
 
 		this.state = {
 			password: "",
+			wrongPassword: false,
 			users: [],
 			currentUser: null
 		};
 	}
 
 	updatePassword(value) {
-		this.setState({password: value});
+		this.setState({
+			password: value,
+			wrongPassword: false
+		});
 	}
 
 	userClicked(user) {
@@ -38,11 +42,7 @@ class Login extends React.Component {
 		});
 	}
 
-	handlePassChange(e) {
-		this.setState({password: e.target.value});
-	}
-
-	login() {
+	login(okBtn) {
 		$.ajax({
 			url: "/api/v1.0/user/login",
 			method: "POST",
@@ -52,13 +52,16 @@ class Login extends React.Component {
 				password: this.state.password
 			},
 			success: $.proxy(function () {
+				okBtn.parents(".modal").modal("hide");
 				localStorage.setItem("user", JSON.stringify(this.state.currentUser));
 				utils.redirectToUserView();
 			}, this),
 			error: $.proxy(function () {
-				console.error("Invalid user / password");
+				this.setState({wrongPassword: true});
 			}, this)
 		});
+
+		return false;
 	}
 
 	render() {
@@ -96,8 +99,11 @@ class Login extends React.Component {
 					</div>
 
 					<div id="loginModalKeypad">
+						<div className="ui pointing below red basic label" hidden={!this.state.wrongPassword}>
+							Parola este incorecta
+						</div>
 						<div className="ui left icon input large">
-							<input type="password" value={this.state.password} onChange={this.handlePassChange}/>
+							<input type="password" value={this.state.password}/>
 							<i className="lock icon" />
 						</div>
 

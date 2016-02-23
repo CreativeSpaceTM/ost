@@ -78,6 +78,7 @@ class SuperScreen extends React.Component {
 
 		for (var f = 0; f < this.state.products.length; f++) {
 			var product = this.state.products[f];
+
 			productOptions.push((
 				<option value={f}
 				        key={product.id}
@@ -87,20 +88,24 @@ class SuperScreen extends React.Component {
 			));
 		}
 
-		var selectedProducts = this.state.selectedProducts.map(function (product, index) {
-			return (
-				<tr key={product.id}>
-					<td>{product.pn}</td>
-					<td>{_.capitalize(product.name)}</td>
+		var selectedProducts = [];
+
+		for (f = 0; f < this.state.selectedProducts.length; f++) {
+			var selectedProduct = this.state.selectedProducts[f];
+
+			selectedProducts.push((
+				<tr key={selectedProduct.id}>
+					<td>{selectedProduct.pn}</td>
+					<td>{_.capitalize(selectedProduct.name)}</td>
 					<td className="minCell">
 						<button className="ui icon red button"
-						        onClick={self.removeProduct.bind(self, index)}>
+						        onClick={this.removeProduct.bind(this, f)}>
 							<i className="remove square icon"></i>
 						</button>
 					</td>
 				</tr>
-			);
-		});
+			));
+		}
 
 		return (
 			<div id="superView">
