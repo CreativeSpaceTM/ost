@@ -5,8 +5,10 @@ var Defect = require("./defect");
 var Product = require("./product");
 var db = require('../db');
 
-var STATUS = require("../static/js/const").STATUS;
-var SIDE = require("../static/js/const").SIDE;
+var consts = require("../const");
+
+var STATUS = consts.STATUS;
+var SIDE = consts.SIDE;
 
 module.exports = db.define('stat', {
 	product: {
