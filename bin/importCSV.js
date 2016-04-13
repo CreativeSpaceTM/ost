@@ -48,10 +48,18 @@ db.sync().then(function () {
 		var productsRaw = csvToArray(data);
 		var products = [];
 
-		for (var f = 0; f < productsRaw.length; f++) {
-			var product = productsRaw[f];
-			if (product.length === 2){
-				products.push({pn: product[0], name: product[1].toLowerCase().trim()});
+		for (var f = 0; f < productsRaw.length; f += 2) {
+			var productLeftRaw = productsRaw[f];
+			var productRightRaw = productsRaw[f + 1];
+			if (productLeftRaw.length === 3) { //last row is empty
+				var product = {
+					project: productLeftRaw[0].toLowerCase().trim(),
+					leftName: productLeftRaw[1].toLowerCase().trim(),
+					leftPn: productLeftRaw[2],
+					rightName: productRightRaw[1].toLowerCase().trim(),
+					rightPn: productRightRaw[2]
+				};
+				products.push(product);
 			}
 		}
 
