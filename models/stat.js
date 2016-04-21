@@ -3,6 +3,7 @@
 var Sequelize = require('sequelize');
 var Defect = require("./defect");
 var Product = require("./product");
+var User = require("./user");
 var db = require('../db');
 
 var consts = require("../const");
@@ -11,6 +12,14 @@ var STATUS = consts.STATUS;
 var SIDE = consts.SIDE;
 
 module.exports = db.define('stat', {
+	reporter: {
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		references: {
+			model: User,
+			key: "id"
+		}
+	},
 	product: {
 		type: Sequelize.INTEGER,
 		allowNull: false,
